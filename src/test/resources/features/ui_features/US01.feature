@@ -42,7 +42,7 @@ Feature: US01_System should allow any user to register with valid credentials
     Then User clicks First Name Box and clicks next box
     And User verifies "Please enter your first name." message is displayed in firstName
     When User enters only symbols in the First Name Box and clicks next box
-    Then User verifies that "Your first name is invalid" message is displaced for below invalid names
+    Then User verifies that "Your first name is invalid" message is displaced for below values
       |   invalid names  |
       |   *              |
       |   12             |

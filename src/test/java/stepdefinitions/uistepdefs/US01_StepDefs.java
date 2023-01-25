@@ -70,26 +70,37 @@ public class US01_StepDefs {
                 softAssert.assertEquals(registrationPage.firstNameBox.getAttribute("value"),"*");
                 softAssert.assertAll();
                 break;
-            case "Phone Number":
+            case "Please enter your last name.":
 
                 break;
-            case "Username Box":
+            case "Your last name is invalid":
 
                 break;
-            case "Email Box":
+            case "Please enter your address.":
 
                 break;
-            case "New Password Box":
+            case "Your address is invalid":
 
                 break;
-            case "Password Comfirmation Box":
+            case "Please enter your mobile phone number.":
+
+                break;
+
+            case "Your mobile phone number is invalid.":
+
+                break;
+            case "Please enter your email.":
+
+                break;
+            case "Your email is invalid.":
 
                 break;
             default:
                 break;
         }
     }
-    @Then("User verifies that {string} message is displaced for below invalid names")
+
+    @Then("User verifies that {string} message is displaced for below values")
     public void user_verifies_that_message_is_displaced_for_below_invalid_names(String message, io.cucumber.datatable.DataTable namesTable) {
         List<Map<String,String>> invalidNames = namesTable.asMaps(String.class,String.class);
         switch (message) {
@@ -108,22 +119,32 @@ public class US01_StepDefs {
         for (Map<String,String> names:invalidNames){
                 registrationPage.firstNameBox.clear();
                 registrationPage.firstNameBox.sendKeys(names.get("invalid names"));
-                softAssert.assertNotEquals(registrationPage.firstNameBox.getAttribute("value"),names.get("invalid names"));
+                softAssert.assertEquals(registrationPage.firstNameBox.getAttribute("value"),names.get("invalid names"));
                 softAssert.assertAll();}
                 break;
-            case "Phone Number":
+            case "Please enter your last name.":
 
                 break;
-            case "Username Box":
+            case "Your last name is invalid":
 
                 break;
-            case "Email Box":
+            case "Please enter your address.":
 
                 break;
-            case "New Password Box":
+            case "Your address is invalid":
 
                 break;
-            case "Password Comfirmation Box":
+            case "Please enter your mobile phone number.":
+
+                break;
+
+            case "Your mobile phone number is invalid.":
+
+                break;
+            case "Please enter your email.":
+
+                break;
+            case "Your email is invalid.":
 
                 break;
             default:
