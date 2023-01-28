@@ -63,7 +63,22 @@ Feature: US01_System should allow any user to register with valid credentials
     When User enters chars with digital numbers and clicks next box
     Then User verifies "Your last name is invalid" message is displayed
     When User enters a valid Last Name in Last Name Box and clicks next box
-    Then User verifies any error message is not displayed
+    Then User verifies any error message is not displayed for lastname
+
+  @US_01-TC_03_Last_Name_Box_Testing2
+  Scenario: US_01-TC_03_Last_Name_Box_Testing
+    Given User enters a valid SSN in the SSN Box and clicks next box
+    Then User enters a valid First Name in First Name Box and clicks next box
+    And User clicks Last Name Box and clicks next box
+    Then User verifies "Please enter your last name." message is displayed
+    Then User verifies that "Your last name is invalid" message is displaced for below values
+      |   invalid lastnames  |
+      |   **?              |
+      |   1284             |
+      |   seda22         |
+    When User enters a valid Last Name in Last Name Box and clicks next box
+    Then User verifies any error message is not displayed for lastname
+
 
   @US_01-TC_04_Address_Box_Testing
   Scenario: US_01-TC_04_Address_Box_Testing
@@ -75,7 +90,7 @@ Feature: US01_System should allow any user to register with valid credentials
     When User enters only symbols in the Address Box and clicks next box
     Then User verifies "Your address is invalid" message is displayed
     When User enters a valid Address in Address Box and clicks next box
-    Then User verifies any error message is not displayed
+    Then User verifies any error message is not displayed in address box
 
   @US_01-TC_05_Mobilephone_Number_Box_Testing
   Scenario: US_01-TC_05_Mobilephone_Number_Box_Testing

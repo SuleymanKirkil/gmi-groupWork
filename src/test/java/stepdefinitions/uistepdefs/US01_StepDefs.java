@@ -23,6 +23,9 @@ public class US01_StepDefs {
 
     RegistrationPage registrationPage = new RegistrationPage();
     Faker faker=new Faker();
+    String fakeFirstName;
+    String Lastname;
+    String Address;
     SoftAssert softAssert=new SoftAssert();
 
 
@@ -52,8 +55,7 @@ public class US01_StepDefs {
 
     @Then("User verifies {string} message is displayed")
     public void user_verifies_message_is_displayed(String message) {
-        Assert.assertEquals(message, registrationPage.ssnBoxEmptyAlertText.getText());
-        ReusableMethods.waitFor(3);
+
         switch (message) {
             case "Please enter your social security number.":
                 Assert.assertEquals(message, registrationPage.ssnBoxEmptyAlertText.getText());
@@ -68,19 +70,23 @@ public class US01_StepDefs {
                 break;
             case "Your first name is invalid":
                 softAssert.assertEquals(registrationPage.firstNameBox.getAttribute("value"),"*");
-                softAssert.assertAll();
+               // softAssert.assertAll();
                 break;
             case "Please enter your last name.":
-
+                softAssert.assertEquals("Please enter your last name.",registrationPage.lastNameBoxEmptyAlertText.getText());
+                softAssert.assertAll();
                 break;
             case "Your last name is invalid":
-
+                softAssert.assertEquals(Lastname,registrationPage.lastNameBox.getAttribute("value"));
+                softAssert.assertAll();
                 break;
             case "Please enter your address.":
-
+                softAssert.assertEquals("Please enter your address.",registrationPage.addressBoxEmptyAlertText.getText());
+                softAssert.assertAll();
                 break;
             case "Your address is invalid":
-
+                softAssert.assertEquals(Address,registrationPage.addressBox.getAttribute("value"));
+                softAssert.assertAll();
                 break;
             case "Please enter your mobile phone number.":
 
@@ -98,6 +104,7 @@ public class US01_StepDefs {
             default:
                 break;
         }
+
     }
 
     @Then("User verifies that {string} message is displaced for below values")
@@ -126,7 +133,12 @@ public class US01_StepDefs {
 
                 break;
             case "Your last name is invalid":
-
+                for (Map<String,String> names:invalidNames) {
+                    registrationPage.lastNameBox.clear();
+                    registrationPage.lastNameBox.sendKeys(names.get("invalid lastnames"));
+                    softAssert.assertEquals(registrationPage.lastNameBox.getAttribute("value"),names.get("invalid lastnames"));
+                    softAssert.assertAll();
+                }
                 break;
             case "Please enter your address.":
 
@@ -259,9 +271,14 @@ public class US01_StepDefs {
 
     @Then("User verifies any error message is not displayed")
     public void user_verifies_any_error_message_is_not_displayed() {
-
+    Assert.assertEquals(registrationPage.firstNameBox.getAttribute("value"),fakeFirstName);
 
     }
+    @Then("User verifies any error message is not displayed for lastname")
+    public void user_verifies_any_error_message_is_not_displayed_for_lastname() {
+        Assert.assertEquals(registrationPage.lastNameBox.getAttribute("value"),Lastname);
+    }
+
 
     @When("User enters only symbols in the First Name Box and clicks next box")
     public void user_enters_only_symbols_in_the_first_name_box_and_clicks_next_box() {
@@ -289,12 +306,15 @@ public class US01_StepDefs {
 
     @Then("User clicks Last Name Box and clicks next box")
     public void user_clicks_last_name_box_and_clicks_next_box() {
+    registrationPage.lastNameBox.click();
+    registrationPage.addressBox.click();
 
     }
 
     @Then("User clicks Address Box and clicks next box")
     public void user_clicks_address_box_and_clicks_next_box() {
-
+    registrationPage.addressBox.click();
+    registrationPage.emailBox.click();
     }
 
 
@@ -305,37 +325,64 @@ public class US01_StepDefs {
 
     @When("User enters chars with digital numbers and clicks next box")
     public void user_enters_chars_with_digital_numbers_and_clicks_next_box() {
-
+        Lastname = "sevgi37";
+        registrationPage.lastNameBox.clear();
+        registrationPage.lastNameBox.sendKeys(Lastname);
+        registrationPage.addressBox.click();
     }
 
     @When("User enters a valid First Name in First Name Box and clicks next box")
     public void user_enters_a_valid_first_name_in_first_name_box_and_clicks_next_box() {
+        registrationPage.firstNameBox.clear();
+        fakeFirstName = faker.name().firstName();
+        registrationPage.firstNameBox.sendKeys(fakeFirstName);
 
     }
 
     @When("User enters only symbols in the Last Name Box and clicks next box")
     public void user_enters_only_symbols_in_the_last_name_box_and_clicks_next_box() {
+        Lastname = "**/?";
+        registrationPage.lastNameBox.clear();
+        registrationPage.lastNameBox.sendKeys(Lastname);
+        registrationPage.addressBox.click();
 
     }
 
     @When("User enters only digital numbers in Last Name Box and clicks next box.")
     public void user_enters_only_digital_numbers_in_last_name_box_and_clicks_next_box() {
-
+        Lastname = "12363";
+        registrationPage.lastNameBox.clear();
+        registrationPage.lastNameBox.sendKeys(Lastname);
+        registrationPage.addressBox.click();
     }
 
     @When("User enters a valid Last Name in Last Name Box and clicks next box")
     public void user_enters_a_valid_last_name_in_last_name_box_and_clicks_next_box() {
-
+        Lastname = "Karaca";
+        registrationPage.lastNameBox.clear();
+        registrationPage.lastNameBox.sendKeys(Lastname);
+        registrationPage.addressBox.click();
     }
 
     @When("User enters only symbols in the Address Box and clicks next box")
     public void user_enters_only_symbols_in_the_address_box_and_clicks_next_box() {
-
+    Address = "***???? //";
+    registrationPage.addressBox.clear();
+    registrationPage.addressBox.sendKeys(Address);
+    registrationPage.emailBox.click();
     }
 
     @When("User enters a valid Address in Address Box and clicks next box")
     public void user_enters_a_valid_address_in_address_box_and_clicks_next_box() {
+        Address = "Tarsus m. Çarşı s. No:9";
+        registrationPage.addressBox.clear();
+        registrationPage.addressBox.sendKeys(Address);
+        registrationPage.emailBox.click();
+    }
 
+    @Then("User verifies any error message is not displayed in address box")
+    public void user_verifies_any_error_message_is_not_displayed_in_address_box() {
+      Assert.assertEquals(Address,registrationPage.addressBox.getAttribute("value"));
     }
 
     @When("User clicks Mobilephone Number Box and clicks next box")
