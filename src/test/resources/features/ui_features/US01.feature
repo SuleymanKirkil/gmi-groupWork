@@ -101,9 +101,9 @@ Feature: US01_System should allow any user to register with valid credentials
     When User clicks Mobilephone Number Box and clicks next box
     And User verifies "Please enter your mobile phone number." message is displayed
     When User enters 10 digit Mobilephone Number without '-' in the Mobilephone Number Box and clicks next box
-    Then User verifies system put '-' between digits automatically
+    Then User verifies system put '-' between phone number digits automatically
     When User enters 9 digit Mobilephone Number in the Mobilephone Number Box and clicks next box
-    Then User verifies "Your mobile phone number is invalid." message is displayed under Mobilephone Number Box
+    Then User verifies "Your mobile phone number is invalid." message is displayed
     When User enters 11 digit Mobilephone Number in the Mobilephone Number Box and clicks next box
     Then User verifies system doesn't accept 11. digit Mobilephone Number
     When User enters only char in the  Mobilephone Number Box and clicks next box

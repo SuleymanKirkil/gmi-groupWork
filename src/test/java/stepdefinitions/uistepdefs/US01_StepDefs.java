@@ -26,6 +26,7 @@ public class US01_StepDefs {
     String fakeFirstName;
     String Lastname;
     String Address;
+    String PhoneNum;
     SoftAssert softAssert=new SoftAssert();
 
 
@@ -89,11 +90,13 @@ public class US01_StepDefs {
                 softAssert.assertAll();
                 break;
             case "Please enter your mobile phone number.":
-
+                softAssert.assertEquals("Please enter your mobile phone number.",registrationPage.mobilePhoneEmptyAlertText.getText());
+               softAssert.assertAll();
                 break;
 
             case "Your mobile phone number is invalid.":
-
+                softAssert.assertEquals("Your mobile phone number is invalid.",registrationPage.mobilePhoneNumberInvalidAlertText.getText());
+               softAssert.assertAll();
                 break;
             case "Please enter your email.":
 
@@ -126,7 +129,7 @@ public class US01_StepDefs {
         for (Map<String,String> names:invalidNames){
                 registrationPage.firstNameBox.clear();
                 registrationPage.firstNameBox.sendKeys(names.get("invalid names"));
-                softAssert.assertEquals(registrationPage.firstNameBox.getAttribute("value"),names.get("invalid names"));
+                softAssert.assertNotEquals(registrationPage.firstNameBox.getAttribute("value"),names.get("invalid names"));
                 softAssert.assertAll();}
                 break;
             case "Please enter your last name.":
@@ -177,6 +180,14 @@ public class US01_StepDefs {
         Assert.assertEquals("123-45-6789", ssnId);
         //Driver.wait(3);
     }
+    @Then("User verifies system put {string} between phone number digits automatically")
+    public void user_verifies_system_put_between_phone_number_digits_automatically(String string) {
+        PhoneNum="554-999-3546";
+        String phoneNum = registrationPage.mobilePhoneBox.getAttribute("value");
+        Assert.assertEquals(PhoneNum, phoneNum);
+        //Driver.wait(3);
+    }
+
 
     @When("User enters {int} digit SSN in the SSN Box and clicks next box")
     public void user_enters_digit_ssn_in_the_ssn_box_and_clicks_next_box(Integer int1) {
@@ -387,17 +398,29 @@ public class US01_StepDefs {
 
     @When("User clicks Mobilephone Number Box and clicks next box")
     public void user_clicks_mobilephone_number_box_and_clicks_next_box() {
-
+    registrationPage.mobilePhoneBox.click();
+    registrationPage.emailBox.click();
     }
 
     @When("User enters {int} digit Mobilephone Number without {string} in the Mobilephone Number Box and clicks next box")
     public void user_enters_digit_mobilephone_number_without_in_the_mobilephone_number_box_and_clicks_next_box(Integer int1, String string) {
+    PhoneNum="55499935467";
+    registrationPage.mobilePhoneBox.clear();
+    registrationPage.mobilePhoneBox.sendKeys(PhoneNum);
 
     }
 
     @When("User enters {int} digit Mobilephone Number in the Mobilephone Number Box and clicks next box")
     public void user_enters_digit_mobilephone_number_in_the_mobilephone_number_box_and_clicks_next_box(Integer int1) {
-
+       registrationPage.mobilePhoneBox.clear();
+        if (int1==9){
+            PhoneNum = "456234979";
+        };
+       if (int1==11){
+            PhoneNum = "45623497911";
+        }
+       registrationPage.mobilePhoneBox.sendKeys(PhoneNum);
+       registrationPage.emailBox.click();
     }
 
     @Then("User verifies {string} message is displayed under Mobilephone Number Box")
@@ -407,7 +430,8 @@ public class US01_StepDefs {
 
     @Then("User verifies system doesn't accept {int}. digit Mobilephone Number")
     public void user_verifies_system_doesn_t_accept_digit_mobilephone_number(Integer int1) {
-
+    PhoneNum ="456-234-9791";
+    Assert.assertEquals(PhoneNum,registrationPage.mobilePhoneBox.getAttribute("value"));
     }
 
     @When("User enters only char in the  Mobilephone Number Box and clicks next box")
