@@ -14,6 +14,8 @@ package pages;
 
         @FindBy(xpath = "//span[.='Register']")
         public WebElement registerButton;
+        @FindBy(id = "register-submit")
+        public WebElement registerButton2;
 
         @FindBy(id = "register-title")
         public WebElement registrationPageTitle;
@@ -46,6 +48,8 @@ package pages;
 
         @FindBy(xpath = "//*[text()='Please enter your address.']")
         public WebElement addressBoxEmptyAlertText;
+        @FindBy(id = "username")
+        public WebElement userNameBox;
 
         @FindBy(xpath = "//*[@id='mobilephone']")
         public WebElement mobilePhoneBox;
@@ -64,5 +68,14 @@ package pages;
 
         @FindBy(xpath = "//*[text()='Your email is invalid.']")
         public WebElement emailInvalidAlertText;
+        @FindBy(id = "firstPassword")
+        public WebElement firstPasswordBox;
+        @FindBy(id = "secondPassword")
+        public WebElement secondPasswordBox;
+
+        @FindBy(xpath = "//div[@class='alert alert-warning fade show']")
+        public WebElement defaultCredentialsAlert;
+
+
 
 }

@@ -26,6 +26,9 @@ public class US01_StepDefs {
     String fakeFirstName;
     String Lastname;
     String Address;
+    String PhoneNumber;
+    String Email;
+    String password;
     SoftAssert softAssert=new SoftAssert();
 
 
@@ -96,10 +99,12 @@ public class US01_StepDefs {
 
                 break;
             case "Please enter your email.":
-
+                softAssert.assertEquals("Please enter your email.",registrationPage.emailBoxEmptyAlertText.getText());
+               softAssert.assertAll();
                 break;
             case "Your email is invalid.":
-
+                softAssert.assertEquals("Your email is invalid.",registrationPage.emailInvalidAlertText.getText());
+                softAssert.assertAll();
                 break;
             default:
                 break;
@@ -385,84 +390,205 @@ public class US01_StepDefs {
       Assert.assertEquals(Address,registrationPage.addressBox.getAttribute("value"));
     }
 
-    @When("User clicks Mobilephone Number Box and clicks next box")
-    public void user_clicks_mobilephone_number_box_and_clicks_next_box() {
-
-    }
-
-    @When("User enters {int} digit Mobilephone Number without {string} in the Mobilephone Number Box and clicks next box")
-    public void user_enters_digit_mobilephone_number_without_in_the_mobilephone_number_box_and_clicks_next_box(Integer int1, String string) {
-
-    }
-
-    @When("User enters {int} digit Mobilephone Number in the Mobilephone Number Box and clicks next box")
-    public void user_enters_digit_mobilephone_number_in_the_mobilephone_number_box_and_clicks_next_box(Integer int1) {
-
-    }
-
-    @Then("User verifies {string} message is displayed under Mobilephone Number Box")
-    public void user_verifies_message_is_displayed_under_mobilephone_number_box(String string) {
-
-    }
-
-    @Then("User verifies system doesn't accept {int}. digit Mobilephone Number")
-    public void user_verifies_system_doesn_t_accept_digit_mobilephone_number(Integer int1) {
-
-    }
 
     @When("User enters only char in the  Mobilephone Number Box and clicks next box")
     public void user_enters_only_char_in_the_mobilephone_number_box_and_clicks_next_box() {
-
+    PhoneNumber= "alim";
+    registrationPage.mobilePhoneBox.clear();
+    registrationPage.mobilePhoneBox.sendKeys(PhoneNumber);
+    registrationPage.emailBox.click();
     }
 
     @Then("User verifies system doesn't accept any char in the Mobilephone Number Box")
     public void user_verifies_system_doesn_t_accept_any_char_in_the_mobilephone_number_box() {
-
+    Assert.assertNotEquals(PhoneNumber,registrationPage.mobilePhoneBox.getAttribute("value"));
+        Assert.assertEquals("",registrationPage.mobilePhoneBox.getAttribute("value"));
+        Assert.assertTrue(registrationPage.mobilePhoneNumberInvalidAlertText.isDisplayed());
     }
 
     @When("User enters only symbols in the Mobilephone Number Box and clicks next box")
     public void user_enters_only_symbols_in_the_mobilephone_number_box_and_clicks_next_box() {
-
+        PhoneNumber= "**?";
+        registrationPage.mobilePhoneBox.clear();
+        registrationPage.mobilePhoneBox.sendKeys(PhoneNumber);
+        registrationPage.emailBox.click();
     }
 
     @Then("User verifies system doesn't accept any sepacial character in the Mobilephone Number Box")
     public void user_verifies_system_doesn_t_accept_any_sepacial_character_in_the_mobilephone_number_box() {
-
+        Assert.assertTrue(registrationPage.mobilePhoneNumberInvalidAlertText.isDisplayed());
     }
 
     @When("User enters a valid Mobilephone Number in the Mobilephone Number Box and clicks next box")
     public void user_enters_a_valid_mobilephone_number_in_the_mobilephone_number_box_and_clicks_next_box() {
-
+    PhoneNumber="5559982323";
+    registrationPage.mobilePhoneBox.clear();
+    registrationPage.mobilePhoneBox.sendKeys(PhoneNumber);
+    registrationPage.emailBox.click();
     }
 
     @Then("User verifies error message is not displayed")
     public void user_verifies_error_message_is_not_displayed() {
-
+    Assert.assertEquals(PhoneNumber,registrationPage.mobilePhoneBox.getAttribute("value"));
     }
 
     @When("User clicks Email Box and clicks next box")
     public void user_clicks_email_box_and_clicks_next_box() {
-
+    registrationPage.emailBox.click();
+    registrationPage.addressBox.click();
     }
 
-    @When("User enters an email without -@- and -.com- and clicks next box")
+    @When("User enters an email without @ and .com and clicks next box")
     public void user_enters_an_email_without_and_and_clicks_next_box() {
-
+    Email= "slimucuzcu";
+    registrationPage.emailBox.clear();
+    registrationPage.emailBox.sendKeys(Email);
+    registrationPage.addressBox.click();
     }
 
-    @When("User enters an email without -@- but with -.com- and clicks next box")
-    public void user_enters_an_email_without_but_with_and_clicks_next_box(String string, String string2) {
-
+    @When("User enters an email without @ but with .com and clicks next box")
+    public void user_enters_an_email_without_but_with_and_clicks_next_box() {
+        Email= "slimucuzcu.com";
+        registrationPage.emailBox.clear();
+        registrationPage.emailBox.sendKeys(Email);
+        registrationPage.addressBox.click();
     }
 
-    @When("User enters an email without -.com- but -@- and clicks next box")
-    public void user_enters_an_email_without_but_and_clicks_next_box(String string, String string2) {
-
+    @When("User enters an email without .com but @ and clicks next box")
+    public void user_enters_an_email_without_but_and_clicks_next_box() {
+        Email= "slim@ucuzcu";
+        registrationPage.emailBox.clear();
+        registrationPage.emailBox.sendKeys(Email);
+        registrationPage.addressBox.click();
     }
 
     @When("User enters a valid email in the email box and clicks next box")
     public void user_enters_a_valid_email_in_the_email_box_and_clicks_next_box() {
+        Email= "slim@ucuzcu.com";
+        registrationPage.emailBox.clear();
+        registrationPage.emailBox.sendKeys(Email);
+        registrationPage.addressBox.click();
+    }
+    @Then("User verifies error message is not displayed in the email box")
+    public void user_verifies_error_message_is_not_displayed_in_the_email_box() {
+       Assert.assertEquals(Email,registrationPage.emailBox.getAttribute("value"));
+    }
 
+    @When("User enters all fields but not SSn box and tries to register")
+    public void user_enters_all_fields_but_not_s_sn_box() {
+    registrationPage.firstNameBox.sendKeys(faker.name().firstName());
+    registrationPage.lastNameBox.sendKeys(faker.name().lastName());
+    registrationPage.addressBox.sendKeys(faker.address().fullAddress());
+    registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
+    registrationPage.userNameBox.sendKeys(faker.name().username());
+    registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
+    registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
+    password=faker.internet().password(5,15,true);
+    registrationPage.firstPasswordBox.sendKeys(password);
+    registrationPage.secondPasswordBox.sendKeys(password);
+    registrationPage.registerButton2.click();
+    }
+    @Then("User verifies use default credentials message is displaced")
+    public void user_verifies_use_default_credentials_message_is_displaced() {
+     Assert.assertTrue(registrationPage.defaultCredentialsAlert.isDisplayed());
+    }
+    @When("User enters all fields but not Lastname box and tries to register")
+    public void user_enters_all_fields_but_not_lastname_box() {
+   registrationPage.userNameBox.sendKeys(faker.idNumber().ssnValid());
+        registrationPage.firstNameBox.sendKeys(faker.name().firstName());
+        registrationPage.addressBox.sendKeys(faker.address().fullAddress());
+        registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
+        registrationPage.userNameBox.sendKeys(faker.name().username());
+        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
+        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
+        password=faker.internet().password(5,15,true);
+        registrationPage.firstPasswordBox.sendKeys(password);
+        registrationPage.secondPasswordBox.sendKeys(password);
+        registrationPage.registerButton2.click();
+    }
+    @When("User enters all fields but not Address box tries to register")
+    public void user_enters_all_fields_but_not_address_box() {
+        registrationPage.userNameBox.sendKeys(faker.idNumber().ssnValid());
+        registrationPage.firstNameBox.sendKeys(faker.name().firstName());
+        registrationPage.lastNameBox.sendKeys(faker.name().lastName());
+        registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
+        registrationPage.userNameBox.sendKeys(faker.name().username());
+        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
+        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
+        password=faker.internet().password(5,15,true);
+        registrationPage.firstPasswordBox.sendKeys(password);
+        registrationPage.secondPasswordBox.sendKeys(password);
+        registrationPage.registerButton2.click();
+    }
+    @When("User enters all fields but not Username box tries to register")
+    public void user_enters_all_fields_but_not_username_box() {
+        registrationPage.userNameBox.sendKeys(faker.idNumber().ssnValid());
+        registrationPage.firstNameBox.sendKeys(faker.name().firstName());
+        registrationPage.lastNameBox.sendKeys(faker.name().lastName());
+        registrationPage.addressBox.sendKeys(faker.address().fullAddress());
+        registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
+        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
+        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
+        password=faker.internet().password(5,15,true);
+        registrationPage.firstPasswordBox.sendKeys(password);
+        registrationPage.secondPasswordBox.sendKeys(password);
+        registrationPage.registerButton2.click();
+    }
+    @When("User enters all fields but not Email box tries to register")
+    public void user_enters_all_fields_but_not_email_box() {
+        registrationPage.userNameBox.sendKeys(faker.idNumber().ssnValid());
+        registrationPage.firstNameBox.sendKeys(faker.name().firstName());
+        registrationPage.lastNameBox.sendKeys(faker.name().lastName());
+        registrationPage.addressBox.sendKeys(faker.address().fullAddress());
+        registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
+        registrationPage.userNameBox.sendKeys(faker.name().username());
+        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
+        password=faker.internet().password(5,15,true);
+        registrationPage.firstPasswordBox.sendKeys(password);
+        registrationPage.secondPasswordBox.sendKeys(password);
+        registrationPage.registerButton2.click();
+    }
+    @When("User enters all fields but not Phone Number box tries to register")
+    public void user_enters_all_fields_but_not_phone_number_box() {
+        registrationPage.userNameBox.sendKeys(faker.idNumber().ssnValid());
+        registrationPage.firstNameBox.sendKeys(faker.name().firstName());
+        registrationPage.lastNameBox.sendKeys(faker.name().lastName());
+        registrationPage.addressBox.sendKeys(faker.address().fullAddress());
+        registrationPage.userNameBox.sendKeys(faker.name().username());
+        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
+        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
+        password=faker.internet().password(5,15,true);
+        registrationPage.firstPasswordBox.sendKeys(password);
+        registrationPage.secondPasswordBox.sendKeys(password);
+        registrationPage.registerButton2.click();
+    }
+    @When("User enters all fields but not New Password box tries to register")
+    public void user_enters_all_fields_but_not_new_password_box() {
+        registrationPage.userNameBox.sendKeys(faker.idNumber().ssnValid());
+        registrationPage.firstNameBox.sendKeys(faker.name().firstName());
+        registrationPage.lastNameBox.sendKeys(faker.name().lastName());
+        registrationPage.addressBox.sendKeys(faker.address().fullAddress());
+        registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
+        registrationPage.userNameBox.sendKeys(faker.name().username());
+        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
+        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
+        password=faker.internet().password(5,15,true);
+        registrationPage.secondPasswordBox.sendKeys(password);
+        registrationPage.registerButton2.click();
+    }
+    @When("User enters all fields but not Password Confirmation box tries to register")
+    public void user_enters_all_fields_but_not_password_confirmation_box() {
+        registrationPage.userNameBox.sendKeys(faker.idNumber().ssnValid());
+        registrationPage.firstNameBox.sendKeys(faker.name().firstName());
+        registrationPage.lastNameBox.sendKeys(faker.name().lastName());
+        registrationPage.addressBox.sendKeys(faker.address().fullAddress());
+        registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
+        registrationPage.userNameBox.sendKeys(faker.name().username());
+        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
+        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
+        password=faker.internet().password(5,15,true);
+        registrationPage.firstPasswordBox.sendKeys(password);
+        registrationPage.registerButton2.click();
     }
 
 }

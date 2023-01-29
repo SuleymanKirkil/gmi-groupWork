@@ -122,11 +122,12 @@ Feature: US01_System should allow any user to register with valid credentials
     And User enters a valid Mobilephone Number in the Mobilephone Number Box and clicks next box
     When User clicks Email Box and clicks next box
     And User verifies "Please enter your email." message is displayed
-    When User enters an email without -@- and -.com- and clicks next box
+    When User enters an email without @ and .com and clicks next box
     Then User verifies "Your email is invalid." message is displayed
-    When User enters an email without -@- but with -.com- and clicks next box
+    When User enters an email without @ but with .com and clicks next box
     Then User verifies "Your email is invalid." message is displayed
-    When User enters an email without -.com- but -@- and clicks next box
+    When User enters an email without .com but @ and clicks next box
     Then User verifies "Your email is invalid." message is displayed
     When User enters a valid email in the email box and clicks next box
-    Then User verifies error message is not displayed
+    Then User verifies error message is not displayed in the email box
+
