@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
         },
         features = "./src/test/resources/features/ui_features",
         glue = {"stepdefinitions","hooks"},
-        tags = "@Us02_TC02_registration_with_invalid_SSN",
+        tags = "@Us02_TC01_Any_field_should_not_be_left_blank_04",
         dryRun =false
 )
 public class Runner {

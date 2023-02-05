@@ -5,7 +5,9 @@ package pages;
     import org.openqa.selenium.support.PageFactory;
     import utilities.Driver;
 
-    public class RegistrationPage {
+    import java.util.List;
+
+public class RegistrationPage {
         public RegistrationPage() {
             PageFactory.initElements(Driver.getDriver(), this);
         }
@@ -70,12 +72,25 @@ package pages;
         public WebElement emailInvalidAlertText;
         @FindBy(id = "firstPassword")
         public WebElement firstPasswordBox;
-        @FindBy(id = "secondPassword")
-        public WebElement secondPasswordBox;
+
+         @FindBy(xpath = "//div[text()='Your password is required to be at least 5 characters.']")
+          public WebElement PasswordAtLeast5Chars;
+         @FindBy(xpath = "//li[@style='background-color: rgb(221, 221, 221);']")
+          public List<WebElement> listOfNoOfGrayStrengthBar;
+
+         @FindBy(id = "secondPassword")
+         public WebElement secondPasswordBox;
+
+
 
         @FindBy(xpath = "//div[@class='alert alert-warning fade show']")
         public WebElement defaultCredentialsAlert;
 
+        @FindBy(xpath = "//div[@class='Toastify__toast-body']")
+        public WebElement successfullReg;
+
+        @FindBy(tagName = "input")
+        public List<WebElement> allFields;
 
 
 }

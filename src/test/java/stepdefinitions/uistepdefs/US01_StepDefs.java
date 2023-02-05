@@ -16,6 +16,7 @@ import utilities.JSUtils;
 import utilities.ReusableMethods;
 
 import java.security.Key;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -73,7 +74,7 @@ public class US01_StepDefs {
                 break;
             case "Your first name is invalid":
                 softAssert.assertEquals(registrationPage.firstNameBox.getAttribute("value"),"*");
-               // softAssert.assertAll();
+                softAssert.assertAll();
                 break;
             case "Please enter your last name.":
                 softAssert.assertEquals("Please enter your last name.",registrationPage.lastNameBoxEmptyAlertText.getText());
@@ -112,6 +113,10 @@ public class US01_StepDefs {
 
     }
 
+    @Then("User verifies Your firt name is invalid")
+    public void user_verifies_your_firt_name_is_invalid() {
+
+    }
     @Then("User verifies that {string} message is displaced for below values")
     public void user_verifies_that_message_is_displaced_for_below_invalid_names(String message, io.cucumber.datatable.DataTable namesTable) {
         List<Map<String,String>> invalidNames = namesTable.asMaps(String.class,String.class);
@@ -474,121 +479,255 @@ public class US01_StepDefs {
        Assert.assertEquals(Email,registrationPage.emailBox.getAttribute("value"));
     }
 
-    @When("User enters all fields but not SSn box and tries to register")
-    public void user_enters_all_fields_but_not_s_sn_box() {
+    @When("User enters all fields")
+    public void user_enters_all_fields_but_not_and_tries_to_register() {
+        registrationPage.ssnBox.sendKeys(faker.idNumber().ssnValid());
+        registrationPage.firstNameBox.sendKeys(faker.name().firstName());
+        registrationPage.lastNameBox.sendKeys(faker.name().lastName());
+        registrationPage.addressBox.sendKeys(faker.address().fullAddress());
+        registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
+        registrationPage.userNameBox.sendKeys(faker.name().username());
+        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
+        password = "Salim6*";
+        registrationPage.firstPasswordBox.sendKeys(password);
+        registrationPage.secondPasswordBox.sendKeys(password);
+    }
+    @When("User enters all fields but not {string} and tries to register")
+    public void user_enters_all_fields_but_not_and_tries_to_register(String emptyField) {
+    registrationPage.ssnBox.sendKeys(faker.idNumber().ssnValid());
     registrationPage.firstNameBox.sendKeys(faker.name().firstName());
     registrationPage.lastNameBox.sendKeys(faker.name().lastName());
     registrationPage.addressBox.sendKeys(faker.address().fullAddress());
     registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
     registrationPage.userNameBox.sendKeys(faker.name().username());
     registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-    registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-    password=faker.internet().password(5,15,true);
+    password="Salim6*";
     registrationPage.firstPasswordBox.sendKeys(password);
     registrationPage.secondPasswordBox.sendKeys(password);
+
+    switch (emptyField){
+        case "SSN box":
+            registrationPage.ssnBox.clear();
+            break;
+        case "Address box":
+            registrationPage.addressBox.clear();
+            break;
+            case "Username box":
+            registrationPage.userNameBox.clear();
+            break;
+            case "Email box":
+            registrationPage.emailBox.clear();
+            break;
+            case "Phone Number box":
+            registrationPage.mobilePhoneBox.clear();
+            break;
+            case "New Password box":
+            registrationPage.firstPasswordBox.clear();
+            break;
+            case "Password Confirmation box":
+            registrationPage.secondPasswordBox.clear();
+            break;
+            case "Lastname box":
+            registrationPage.lastNameBox.clear();
+            break;
+            case "FirstName box":
+            registrationPage.firstNameBox.clear();
+            break;
+        default: break;
+
+
+
+
+
+    }
+
+//    if (emptyField=="SSN box"){ registrationPage.ssnBox.sendKeys("");}
+//    else if (emptyField=="Address box") {registrationPage.addressBox.clear();}
+//    else if (emptyField=="Username box") {registrationPage.userNameBox.clear();}
+//    else if (emptyField=="Email box") {registrationPage.emailBox.clear();}
+//    else if (emptyField=="Phone Number box") {registrationPage.mobilePhoneBox.clear();}
+//    else if (emptyField=="New Password box") {registrationPage.firstPasswordBox.clear();}
+//    else if (emptyField=="Password Confirmation box") {registrationPage.secondPasswordBox.clear();}
+//    else if (emptyField=="Lastname box") {registrationPage.lastNameBox.clear();}
+//    else if (emptyField=="FirstName box") {registrationPage.lastNameBox.clear();}
+
     registrationPage.registerButton2.click();
+
     }
-    @Then("User verifies use default credentials message is displaced")
+    @Then("User verifies that registration is not completed")
     public void user_verifies_use_default_credentials_message_is_displaced() {
-     Assert.assertTrue(registrationPage.defaultCredentialsAlert.isDisplayed());
+    try {
+        //ReusableMethods.waitForVisibility(registrationPage.successfullReg,1);
+         Assert.assertFalse(registrationPage.successfullReg.isDisplayed());
+     }catch (Exception NoSuchElementException){
+        Assert.assertTrue(true);
+     }
+     //Driver.getDriver().navigate().refresh();
     }
+
+    @Then("User verifies All fields must be filled to be registered")
+    public void user_verifies_all_fields_must_be_filled_to_be_registered() {
+        List<WebElement> allFields =registrationPage.allFields;
+        for(WebElement field:allFields){
+            String fieldValue = field.getAttribute("value");
+            field.clear();
+            registrationPage.registerButton2.click();
+            try {
+                Assert.assertFalse(registrationPage.successfullReg.isDisplayed());
+            }catch (Exception NoSuchElement){
+                Assert.assertTrue(true);
+            }
+            field.sendKeys(fieldValue);
+        }
+    }
+
+
     @When("User enters all fields but not Lastname box and tries to register")
     public void user_enters_all_fields_but_not_lastname_box() {
-   registrationPage.userNameBox.sendKeys(faker.idNumber().ssnValid());
+         registrationPage.ssnBox.sendKeys(faker.idNumber().ssnValid());
         registrationPage.firstNameBox.sendKeys(faker.name().firstName());
         registrationPage.addressBox.sendKeys(faker.address().fullAddress());
+        registrationPage.lastNameBox.sendKeys(faker.name().lastName());
         registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
         registrationPage.userNameBox.sendKeys(faker.name().username());
         registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-        password=faker.internet().password(5,15,true);
+        password="Salim6*";
         registrationPage.firstPasswordBox.sendKeys(password);
         registrationPage.secondPasswordBox.sendKeys(password);
         registrationPage.registerButton2.click();
     }
     @When("User enters all fields but not Address box tries to register")
     public void user_enters_all_fields_but_not_address_box() {
-        registrationPage.userNameBox.sendKeys(faker.idNumber().ssnValid());
+        registrationPage.ssnBox.sendKeys(faker.idNumber().ssnValid());
         registrationPage.firstNameBox.sendKeys(faker.name().firstName());
         registrationPage.lastNameBox.sendKeys(faker.name().lastName());
         registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
         registrationPage.userNameBox.sendKeys(faker.name().username());
         registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-        password=faker.internet().password(5,15,true);
+        password="Salim6*";
         registrationPage.firstPasswordBox.sendKeys(password);
         registrationPage.secondPasswordBox.sendKeys(password);
         registrationPage.registerButton2.click();
     }
     @When("User enters all fields but not Username box tries to register")
     public void user_enters_all_fields_but_not_username_box() {
-        registrationPage.userNameBox.sendKeys(faker.idNumber().ssnValid());
+        registrationPage.ssnBox.sendKeys(faker.idNumber().ssnValid());
         registrationPage.firstNameBox.sendKeys(faker.name().firstName());
         registrationPage.lastNameBox.sendKeys(faker.name().lastName());
         registrationPage.addressBox.sendKeys(faker.address().fullAddress());
         registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
         registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-        password=faker.internet().password(5,15,true);
+        password="Salim6*";
         registrationPage.firstPasswordBox.sendKeys(password);
         registrationPage.secondPasswordBox.sendKeys(password);
         registrationPage.registerButton2.click();
     }
     @When("User enters all fields but not Email box tries to register")
     public void user_enters_all_fields_but_not_email_box() {
-        registrationPage.userNameBox.sendKeys(faker.idNumber().ssnValid());
+        registrationPage.ssnBox.sendKeys(faker.idNumber().ssnValid());
         registrationPage.firstNameBox.sendKeys(faker.name().firstName());
         registrationPage.lastNameBox.sendKeys(faker.name().lastName());
         registrationPage.addressBox.sendKeys(faker.address().fullAddress());
         registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
         registrationPage.userNameBox.sendKeys(faker.name().username());
-        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-        password=faker.internet().password(5,15,true);
+        password="Salim6*";
         registrationPage.firstPasswordBox.sendKeys(password);
         registrationPage.secondPasswordBox.sendKeys(password);
         registrationPage.registerButton2.click();
     }
     @When("User enters all fields but not Phone Number box tries to register")
     public void user_enters_all_fields_but_not_phone_number_box() {
-        registrationPage.userNameBox.sendKeys(faker.idNumber().ssnValid());
+        registrationPage.ssnBox.sendKeys(faker.idNumber().ssnValid());
         registrationPage.firstNameBox.sendKeys(faker.name().firstName());
         registrationPage.lastNameBox.sendKeys(faker.name().lastName());
         registrationPage.addressBox.sendKeys(faker.address().fullAddress());
         registrationPage.userNameBox.sendKeys(faker.name().username());
         registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-        password=faker.internet().password(5,15,true);
+        password="Salim6*";
         registrationPage.firstPasswordBox.sendKeys(password);
         registrationPage.secondPasswordBox.sendKeys(password);
         registrationPage.registerButton2.click();
     }
     @When("User enters all fields but not New Password box tries to register")
     public void user_enters_all_fields_but_not_new_password_box() {
-        registrationPage.userNameBox.sendKeys(faker.idNumber().ssnValid());
+        registrationPage.ssnBox.sendKeys(faker.idNumber().ssnValid());
         registrationPage.firstNameBox.sendKeys(faker.name().firstName());
         registrationPage.lastNameBox.sendKeys(faker.name().lastName());
         registrationPage.addressBox.sendKeys(faker.address().fullAddress());
         registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
         registrationPage.userNameBox.sendKeys(faker.name().username());
         registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-        password=faker.internet().password(5,15,true);
+        password="Salim6*";
         registrationPage.secondPasswordBox.sendKeys(password);
         registrationPage.registerButton2.click();
     }
     @When("User enters all fields but not Password Confirmation box tries to register")
     public void user_enters_all_fields_but_not_password_confirmation_box() {
-        registrationPage.userNameBox.sendKeys(faker.idNumber().ssnValid());
+        registrationPage.ssnBox.sendKeys(faker.idNumber().ssnValid());
         registrationPage.firstNameBox.sendKeys(faker.name().firstName());
         registrationPage.lastNameBox.sendKeys(faker.name().lastName());
         registrationPage.addressBox.sendKeys(faker.address().fullAddress());
         registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
         registrationPage.userNameBox.sendKeys(faker.name().username());
         registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-        password=faker.internet().password(5,15,true);
+        password="Salim6*";
         registrationPage.firstPasswordBox.sendKeys(password);
         registrationPage.registerButton2.click();
     }
+    @Then("User leaves {string} empty and tries to register")
+    public void user_leaves_empty_and_tries_to_register(String emptyField) {
+        switch (emptyField) {
+            case "SSN box":
+                registrationPage.ssnBox.clear();
+                break;
+            case "Address box":
+                registrationPage.lastNameBox.sendKeys(faker.name().lastName());
+                registrationPage.addressBox.clear();
+                break;
+            case "Username box":
+                registrationPage.addressBox.sendKeys(faker.address().fullAddress());
+                registrationPage.userNameBox.clear();
+                break;
+            case "Email box":
+                registrationPage.userNameBox.sendKeys(faker.name().username());
+                registrationPage.emailBox.clear();
+                break;
+            case "Phone Number box":
+                registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
+                registrationPage.mobilePhoneBox.clear();
+                break;
+            case "New Password box":
+                registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
+                registrationPage.firstPasswordBox.clear();
+                break;
+            case "Password Confirmation box":
+                registrationPage.firstPasswordBox.sendKeys(password);
+                registrationPage.secondPasswordBox.clear();
+                break;
+            case "Lastname box":
+                registrationPage.firstNameBox.sendKeys(faker.name().firstName());
+                registrationPage.lastNameBox.clear();
+                break;
+            case "FirstName box":
+                registrationPage.ssnBox.sendKeys(faker.idNumber().ssnValid());
+                registrationPage.firstNameBox.clear();
+                break;
+            default:
+                break;
+        }
+        registrationPage.registerButton2.click();
+    }
+    @When("User enters all fields but leaves a field empty")
+    public void user_enters_leaves_a_field_empty(io.cucumber.datatable.DataTable fieldValues) {
+        List<Map<String,String>> fields =fieldValues.asMaps(String.class,String.class);
+//        for(Map<String,String> field:fields){
+//            registrationPage.ssnBox.sendKeys(field.get("SSN"));
+//            registrationPage.firstNameBox.sendKeys(field.get("FirstName"));
+//            registrationPage.lastNameBox.sendKeys(field.get("LastName"));
+//            registrationPage.addressBox.sendKeys(field.get("Address"));
+//        }
+
+    }
+
 
 }
