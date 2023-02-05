@@ -241,7 +241,19 @@ public class US01_StepDefs {
         registrationPage.ssnBox.sendKeys(".*??????!");
         registrationPage.ssnBox.click();
     }
-
+    @When("User enters only char in the Phone Number Box and clicks next box")
+    public void user_enters_only_chars_in_the_phone_box_and_clicks_next_box() {
+        registrationPage.mobilePhoneBox.clear();
+        Driver.wait(3);
+        registrationPage.mobilePhoneBox.sendKeys("askreadf");
+        registrationPage.ssnBox.click();
+    }   @When("User enters only symbols in the Phone Number Box and clicks next box")
+    public void user_enters_only_symbols_in_the_phone_box_and_clicks_next_box() {
+        registrationPage.mobilePhoneBox.clear();
+        Driver.wait(3);
+        registrationPage.mobilePhoneBox.sendKeys(".*??????!");
+        registrationPage.mobilePhoneBox.click();
+    }
     @Then("User verifies system doesn't accept any sepacial character")
     public void user_verifies_system_doesn_t_accept_any_sepacial_character() {
        // Assert.assertTrue(registrationPage.ssnBox.getAttribute("value").isEmpty());
@@ -512,25 +524,25 @@ public class US01_StepDefs {
         case "Address box":
             registrationPage.addressBox.clear();
             break;
-            case "Username box":
+        case "Username box":
             registrationPage.userNameBox.clear();
             break;
-            case "Email box":
+        case "Email box":
             registrationPage.emailBox.clear();
             break;
-            case "Phone Number box":
+        case "Phone Number box":
             registrationPage.mobilePhoneBox.clear();
             break;
-            case "New Password box":
+        case "New Password box":
             registrationPage.firstPasswordBox.clear();
             break;
-            case "Password Confirmation box":
+        case "Password Confirmation box":
             registrationPage.secondPasswordBox.clear();
             break;
-            case "Lastname box":
+        case "Lastname box":
             registrationPage.lastNameBox.clear();
             break;
-            case "FirstName box":
+        case "FirstName box":
             registrationPage.firstNameBox.clear();
             break;
         default: break;
@@ -582,59 +594,7 @@ public class US01_StepDefs {
     }
 
 
-    @When("User enters all fields but not Lastname box and tries to register")
-    public void user_enters_all_fields_but_not_lastname_box() {
-         registrationPage.ssnBox.sendKeys(faker.idNumber().ssnValid());
-        registrationPage.firstNameBox.sendKeys(faker.name().firstName());
-        registrationPage.addressBox.sendKeys(faker.address().fullAddress());
-        registrationPage.lastNameBox.sendKeys(faker.name().lastName());
-        registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
-        registrationPage.userNameBox.sendKeys(faker.name().username());
-        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-        password="Salim6*";
-        registrationPage.firstPasswordBox.sendKeys(password);
-        registrationPage.secondPasswordBox.sendKeys(password);
-        registrationPage.registerButton2.click();
-    }
-    @When("User enters all fields but not Address box tries to register")
-    public void user_enters_all_fields_but_not_address_box() {
-        registrationPage.ssnBox.sendKeys(faker.idNumber().ssnValid());
-        registrationPage.firstNameBox.sendKeys(faker.name().firstName());
-        registrationPage.lastNameBox.sendKeys(faker.name().lastName());
-        registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
-        registrationPage.userNameBox.sendKeys(faker.name().username());
-        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-        password="Salim6*";
-        registrationPage.firstPasswordBox.sendKeys(password);
-        registrationPage.secondPasswordBox.sendKeys(password);
-        registrationPage.registerButton2.click();
-    }
-    @When("User enters all fields but not Username box tries to register")
-    public void user_enters_all_fields_but_not_username_box() {
-        registrationPage.ssnBox.sendKeys(faker.idNumber().ssnValid());
-        registrationPage.firstNameBox.sendKeys(faker.name().firstName());
-        registrationPage.lastNameBox.sendKeys(faker.name().lastName());
-        registrationPage.addressBox.sendKeys(faker.address().fullAddress());
-        registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
-        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-        password="Salim6*";
-        registrationPage.firstPasswordBox.sendKeys(password);
-        registrationPage.secondPasswordBox.sendKeys(password);
-        registrationPage.registerButton2.click();
-    }
-    @When("User enters all fields but not Email box tries to register")
-    public void user_enters_all_fields_but_not_email_box() {
-        registrationPage.ssnBox.sendKeys(faker.idNumber().ssnValid());
-        registrationPage.firstNameBox.sendKeys(faker.name().firstName());
-        registrationPage.lastNameBox.sendKeys(faker.name().lastName());
-        registrationPage.addressBox.sendKeys(faker.address().fullAddress());
-        registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
-        registrationPage.userNameBox.sendKeys(faker.name().username());
-        password="Salim6*";
-        registrationPage.firstPasswordBox.sendKeys(password);
-        registrationPage.secondPasswordBox.sendKeys(password);
-        registrationPage.registerButton2.click();
-    }
+
     @When("User enters all fields but not Phone Number box tries to register")
     public void user_enters_all_fields_but_not_phone_number_box() {
         registrationPage.ssnBox.sendKeys(faker.idNumber().ssnValid());
@@ -648,32 +608,7 @@ public class US01_StepDefs {
         registrationPage.secondPasswordBox.sendKeys(password);
         registrationPage.registerButton2.click();
     }
-    @When("User enters all fields but not New Password box tries to register")
-    public void user_enters_all_fields_but_not_new_password_box() {
-        registrationPage.ssnBox.sendKeys(faker.idNumber().ssnValid());
-        registrationPage.firstNameBox.sendKeys(faker.name().firstName());
-        registrationPage.lastNameBox.sendKeys(faker.name().lastName());
-        registrationPage.addressBox.sendKeys(faker.address().fullAddress());
-        registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
-        registrationPage.userNameBox.sendKeys(faker.name().username());
-        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-        password="Salim6*";
-        registrationPage.secondPasswordBox.sendKeys(password);
-        registrationPage.registerButton2.click();
-    }
-    @When("User enters all fields but not Password Confirmation box tries to register")
-    public void user_enters_all_fields_but_not_password_confirmation_box() {
-        registrationPage.ssnBox.sendKeys(faker.idNumber().ssnValid());
-        registrationPage.firstNameBox.sendKeys(faker.name().firstName());
-        registrationPage.lastNameBox.sendKeys(faker.name().lastName());
-        registrationPage.addressBox.sendKeys(faker.address().fullAddress());
-        registrationPage.mobilePhoneBox.sendKeys(faker.phoneNumber().phoneNumber());
-        registrationPage.userNameBox.sendKeys(faker.name().username());
-        registrationPage.emailBox.sendKeys(faker.internet().emailAddress());
-        password="Salim6*";
-        registrationPage.firstPasswordBox.sendKeys(password);
-        registrationPage.registerButton2.click();
-    }
+
     @Then("User leaves {string} empty and tries to register")
     public void user_leaves_empty_and_tries_to_register(String emptyField) {
         switch (emptyField) {
@@ -727,7 +662,25 @@ public class US01_StepDefs {
 //            registrationPage.addressBox.sendKeys(field.get("Address"));
 //        }
 
-    }
+        for (int k =1;k<fieldValues.column(0).size();k++) {
+            for (int i=0;i<fieldValues.row(0).size();i++){
+            if (fieldValues.row(k).get(i).contains("null")) {
+                registrationPage.allFields.get(i).sendKeys("");
+            } else {
+                registrationPage.allFields.get(i).sendKeys(fieldValues.row(k).get(i));
+            }}    registrationPage.registerButton2.click();
+            try {
+                Assert.assertFalse(registrationPage.successfullReg.isDisplayed());
+            }catch (Exception NoSuchElement){
+                Assert.assertTrue(true);
+            }
+            for (WebElement field:registrationPage.allFields){
+                if (!field.getAttribute("value").isEmpty()){
+                    field.clear();
+                }
+            }
 
+        }
+        }
 
 }

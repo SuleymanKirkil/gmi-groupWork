@@ -14,8 +14,8 @@ import org.junit.runner.RunWith;
                 //"com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
         },
         features = "./src/test/resources/features/ui_features",
-        glue = {"stepdefinitions","hooks"},
-        tags = "@Us02_TC01_Any_field_should_not_be_left_blank_04",
+        glue = {"stepdefinitions"},
+        tags = "@Us_03_Tc01_Strength_Of_Password_Bar",
         dryRun =false
 )
 public class Runner {

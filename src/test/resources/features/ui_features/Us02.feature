@@ -29,10 +29,10 @@
       Scenario: US02_TC02 All fields must be filled to register
       When User enters all fields but leaves a field empty
       |SSN           | FirstName   |   LastName     |Address       |
-      |       345       |    ali      |    kara       |    tavşanlı   |
-      |   231432342  |     df        |      sara     |     sacmanlı   |
-      |   231432349  |    deli     |               |      dermanlı  |
-      |   231432348  |    yelli    |       yara    |            rhTY    |
+      |   555555555   |    ali      |    kara       |    tavşanlı   |
+      |   231432342  |     null        |      sara     |     sacmanlı   |
+      |   231432349  |    deli     |      null       |      dermanlı  |
+      |   231432348  |    yelli    |       yara    |       null    |
       Then User verifies that registration is not completed
 
     @Us02_TC01_Any_field_should_not_be_left_blank_03
@@ -66,11 +66,28 @@
     @Us02_TC02_registration_with_invalid_SSN
      Scenario: US02_TC02_SSN number can be any of char or special chars
        When User enters only char in the SSN Box and clicks next box
-       And User enters all fields but not "SSn box" and tries to register
+       And User enters all fields but not "SSN box" and tries to register
+      Then User verifies that registration is not completed
       When User enters only symbols in the SSN Box and clicks next box
-       Then User enters all fields but not Phone Number box tries to register
-       When User enters only symbols in the SSN Box and clicks next box
-       And User enters all fields but not "SSn box" and tries to register
-       Then User enters all fields but not Phone Number box tries to register
+      And User enters all fields but not "SSN box" and tries to register
+      Then User verifies that registration is not completed
+      When User enters only char in the Phone Number Box and clicks next box
+      And User enters all fields but not "Phone Number box" and tries to register
+      Then User verifies that registration is not completed
+      When User enters only symbols in the Phone Number Box and clicks next box
+       And User enters all fields but not "Phone Number box" and tries to register
+      Then User verifies that registration is not completed
+      When User enters an email without @ and .com and clicks next box
+      And User enters all fields but not "Email box" and tries to register
+      Then User verifies that registration is not completed
+      When User enters an email without @ but with .com and clicks next box
+      And User enters all fields but not "Email box" and tries to register
+      Then User verifies that registration is not completed
+      When User enters an email without .com but @ and clicks next box
+      And User enters all fields but not "Email box" and tries to register
+      Then User verifies that registration is not completed
+
+
+
 
 
